@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Merchant</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">_E8ZDarrky4N-iYizDaICX7gXPd9gWfEHm2tb</string>
 </resources>

@@ -28,12 +28,10 @@ export default class checkConnection extends Component {
     }
 
     _handleNetworkConnect = (isConnected) => {
-
         this.setState({ isConnected })
     }
 
     _handleAppStateChange = (nextAppState) => {
-  
         if (nextAppState === 'active') {
             this.checkNetWork()
         }

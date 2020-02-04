@@ -4,6 +4,14 @@ export const changeLanguage = (language) => {
         language
     }
 }
+
+export const setTextError = (payload) => {
+    return {
+        type: 'SET_TEXT_ERROR',
+        payload
+    }
+}
+
 export function loadingApp() {
     return {
         type: 'LOADING_ROOT',
@@ -16,6 +24,19 @@ export function stopLoadingApp() {
     }
 }
 
+export function loadingTask() {
+    return {
+        type: 'LOADING_TASK',
+    }
+}
+
+export function stopLoadingTask() {
+    return {
+        type: 'STOP_LOADING_TASK',
+    }
+}
+
+
 export const showKeyBoard = () => {
     return {
         type: 'SHOW_KEYBOARD',
@@ -27,3 +48,10 @@ export const hideKeyBoard = () => {
         type: 'HIDE_KEYBOARD',
     }
 }
+
+export const handleBack = () => {
+    return {
+        type: 'HANDLE_BACK',
+    }
+}
+

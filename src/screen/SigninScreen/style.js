@@ -9,16 +9,13 @@ export const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'column',
-		marginTop: 15,
-		marginBottom: 25
 	},
 	txtDangNhap: {
 		fontSize: scale(12),
 		color: WHITE,
 		fontWeight: 'bold',
-		marginTop: 25,
-		fontFamily : 'Roboto'
-
+		marginTop: scaleWidth(2),
+		fontFamily: 'Roboto'
 	},
 	txtPass: {
 		fontSize: scale(8),
@@ -26,7 +23,7 @@ export const styles = StyleSheet.create({
 		textAlign: 'center',
 		marginTop: verticalScale(5),
 		fontWeight: '300',
-		fontFamily : 'Roboto'
+		fontFamily: 'Roboto'
 	}
 });
 
@@ -34,18 +31,18 @@ export const styleLogin = StyleSheet.create({
 	input: {
 		flex: 8,
 		backgroundColor: '#ffffff',
-		fontSize: moderateScale(16),
+		fontSize: scaleWidth(1.7),
 		color: '#333',
 		fontWeight: '300',
-		paddingHorizontal: scale(7),
+		paddingHorizontal: scaleWidth(1),
 		borderTopRightRadius: 5,
 		borderBottomRightRadius: 5
 	},
 	wrapperInput: {
 		display: 'flex',
 		flexDirection: 'row',
-		width: scaleWidth('40%'),
-		height: scaleHeight('7%'),
+		width: scaleWidth('40'),
+		height: scaleWidth(5),
 		marginBottom: verticalScale(7)
 	},
 	imgContainerInput: {
@@ -60,6 +57,14 @@ export const styleLogin = StyleSheet.create({
 		width: '60%',
 		height: '60%',
 		resizeMode: 'contain'
+	},
+	buttonLogin: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: scaleWidth('40%'),
+		height: scaleWidth(5),
+		backgroundColor: '#F06C3C',
+		borderRadius: 5,
+		marginTop: scaleHeight('3%')
 	}
 });
-

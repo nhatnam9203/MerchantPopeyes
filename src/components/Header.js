@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, Image, StyleSheet, ImageBackground, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, ImageBackground, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import image from '../assets';
 import ConnectRedux from '../redux/ConnectRedux';
-import { scaleWidth, scaleHeight, scale, verticalScale, moderateScale, GlobalStyle } from '../utils';
+import { scaleWidth, scale, verticalScale, moderateScale, GlobalStyle } from '../utils';
 import Configs from '../configs';
-const { COLOR_MAIN_APP: { PINK_BOLD, WHITE } } = Configs;
-const { FONT_SIZE: { FONT_BUTTON } } = Configs;
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Right } from 'native-base';
-
 import Modal from '../components/Modal';
 import Icon from 'react-native-vector-icons/Fontisto';
-import { Text } from 'components';
+import { Text, LoadingRoot } from 'components';
+import { TouchableRipple } from 'react-native-paper';
+
+const { COLOR_MAIN_APP: { PINK_BOLD, WHITE } } = Configs;
+const { FONT_SIZE: { FONT_BUTTON } } = Configs;
 
 class Header extends React.Component {
 	constructor(props) {
@@ -25,29 +26,29 @@ class Header extends React.Component {
 		this.props.actions.app.changeLanguage(language);
 	}
 
+	closeModal = () => {
+		this.setState({ isModal: false });
+	};
+
+	logOut = () => {
+		this.setState({ isModal: false });
+		if (this.props.logout) {
+			this.props.logout();
+		}
+	};
+
 	renderBack() {
 		const { isBack, onPress } = this.props;
 		if (isBack) {
 			return (
 				<View style={{ position: 'absolute', bottom: '2%', right: scale(10) }}>
 					<Right>
-						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text
-								style={{
-									fontSize: moderateScale(16, 0.25),
-									fontWeight: '500',
-									color: PINK_BOLD,
-									marginHorizontal: 15,
-									letterSpacing: 0.3,
-									fontFamily: GlobalStyle.Medium
-								}}
-								i18nKey={'textBack'}
-							/>
-
-							<TouchableOpacity>
-								<AntDesign name="leftcircle" size={55} color={PINK_BOLD} onPress={onPress} />
-							</TouchableOpacity>
-						</View>
+						<TouchableOpacity onPress={onPress}>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Text style={styles.textBack} i18nKey={'textBack'} />
+								<AntDesign name="leftcircle" size={scaleWidth(5)} color={PINK_BOLD} />
+							</View>
+						</TouchableOpacity>
 					</Right>
 				</View>
 			);
@@ -56,22 +57,14 @@ class Header extends React.Component {
 	}
 
 	renderTitle() {
-		const { isRight } = this.props;
+		const { isRight, merchant } = this.props;
 		if (isRight) {
 			return (
 				<View style={styles.containerRight}>
-					<Image
-						source={image.Logo}
-						resizeMode="contain"
-						style={{
-							width: moderateScale(62, 0.25),
-							height: moderateScale(62, 0.25),
-							marginHorizontal: scale(10)
-						}}
-					/>
+					<Image source={image.Logo} resizeMode="contain" style={styles.imgLogo} />
 					<View>
-						<Text style={styles.txtName}>POPEYES VINMARK CỘNG HÒA</Text>
-						<Text style={styles.txtAddress}>Địa chỉ: 15-17 Cộng Hòa, P.4, Quận Tân Bình, Tp.HCM</Text>
+						<Text style={styles.txtName}>{merchant.store_name}</Text>
+						<Text style={styles.txtAddress}>{merchant.address}</Text>
 					</View>
 				</View>
 			);
@@ -79,32 +72,20 @@ class Header extends React.Component {
 		return null;
 	}
 
-	renderLogout() {
+	renderLogoutButton() {
 		const { isBotLeft } = this.props;
 		if (isBotLeft) {
 			return (
-				<View style={styles.botRight}>
-					<Text
-						i18nKey={'textLogout'}
-						style={{
-							fontSize: scaleWidth('1.75%'),
-							color: WHITE,
-							fontWeight: '600',
-							marginRight: scale(5),
-							fontFamily: GlobalStyle.Medium
-						}}
-					/>
+				<TouchableOpacity
+					hitSlop={{ top: 20, bottom: 20, right: 20, left: 20 }}
+					onPress={() => this.setState({ isModal: true })}
+					style={styles.botRight}
+				>
+					<Text i18nKey={'textLogout'} style={styles.textLogout} />
 					<TouchableOpacity onPress={() => this.setState({ isModal: true })}>
-						<Image
-							source={image.Logout}
-							style={{
-								width: scale(16),
-								height: scale(16)
-							}}
-							resizeMode="contain"
-						/>
+						<Image source={image.Logout} style={styles.imgLogout} resizeMode="contain" />
 					</TouchableOpacity>
-				</View>
+				</TouchableOpacity>
 			);
 		}
 		return null;
@@ -132,30 +113,14 @@ class Header extends React.Component {
 		);
 	}
 
-	closeModal() {
-		this.setState({ isModal: false });
-	}
-
-	logOut() {
-		this.setState({ isModal: false });
-		if (this.props.logout) {
-			this.props.logout();
-		}
-	}
-
-	renderModal() {
+	renderModalLogout() {
 		return (
 			<Modal animationType="fade" transparent={true} visible={this.state.isModal} onRequestClose={() => {}}>
 				<View style={styles.containerModal}>
 					<View style={styles.headerModal}>
 						<View />
 						<Text style={styles.titleModal} i18nKey={'textTitleNotification'} />
-						<Icon
-							onPress={() => this.closeModal()}
-							name="close-a"
-							size={moderateScale(18)}
-							color="#ffffff"
-						/>
+						<Icon onPress={this.closeModal} name="close-a" size={moderateScale(18)} color="#ffffff" />
 					</View>
 					<View
 						style={{
@@ -165,31 +130,17 @@ class Header extends React.Component {
 						<Text style={styles.contentModal} i18nKey={'textContentLogout'} />
 
 						<View style={styles.wrapButtonModal}>
-							<TouchableOpacity
-								onPress={() => this.logOut()}
-								style={[
-									styles.button,
-									{
-										backgroundColor: 'white',
-										borderWidth: 1,
-										borderColor: '#404040'
-									}
-								]}
+							<TouchableRipple
+								rippleColor="#dddddd"
+								onPress={this.logOut}
+								style={[ styles.button, styles.buttonLogout ]}
 							>
-								<Text
-									style={[
-										styles.txtButton,
-										{
-											color: '#404040'
-										}
-									]}
-									i18nKey='textYes'
-								/>
-				
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => this.closeModal()} style={styles.button}>
-								<Text style={styles.txtButton} i18nKey='textNo'/>
-							</TouchableOpacity>
+								<Text style={[ styles.txtButton, styles.textYesLogout ]} i18nKey="textYes" />
+							</TouchableRipple>
+
+							<TouchableRipple rippleColor="orange" onPress={this.closeModal} style={styles.button}>
+								<Text style={styles.txtButton} i18nKey="textNo" />
+							</TouchableRipple>
 						</View>
 					</View>
 				</View>
@@ -198,49 +149,70 @@ class Header extends React.Component {
 	}
 
 	render() {
+		const { loading } = this.props;
 		return (
 			<React.Fragment>
 				<StatusBar hidden={true} />
 				<View style={styles.container}>
-					<View style={{ height: scale(50) }}>
+					<View style={styles.header}>
 						<ImageBackground resizeMode="stretch" source={image.Header} style={styles.imageBackground}>
 							<View style={styles.content}>
 								{this.renderTitle()}
 								<View style={{ flexDirection: 'column' }}>
 									{this.renderLanguage()}
-									{this.renderLogout()}
+									{this.renderLogoutButton()}
 								</View>
 							</View>
 						</ImageBackground>
 					</View>
 
-					<View ref={(parent) => (this.parent = parent)} style={styles.container}>
+					<ScrollView
+						ref={(parent) => (this.parent = parent)}
+						contentContainerStyle={{
+							flex: 1
+						}}
+					>
 						{this.props.children}
-					</View>
 
-					{this.renderBack()}
-					{this.renderModal()}
+						{this.renderBack()}
+						{this.renderModalLogout()}
+					</ScrollView>
 				</View>
+				{loading && <LoadingRoot />}
 			</React.Fragment>
 		);
 	}
 }
-export default ConnectRedux(null, Header);
+
+const mapStateToProps = (state) => ({
+	loading: state.app.loading,
+	merchant: state.auth.merchant
+});
+
+export default ConnectRedux(mapStateToProps, Header);
 const styles = StyleSheet.create({
+	header: {
+		height: scaleWidth(10)
+	},
 	txtLanguage: {
-		fontSize: moderateScale(13),
+		fontSize: scaleWidth(1.5),
 		fontWeight: '600',
-		marginLeft: 5,
+		marginLeft: 0,
 		color: '#404040',
 		fontFamily: GlobalStyle.Medium
 	},
+	imgLogo: {
+		width: scaleWidth(7),
+		height: scaleWidth(7),
+		marginHorizontal: scale(10)
+	},
 	imageLanguage: {
-		width: moderateScale(26),
-		height: verticalScale(16)
+		width: scaleWidth(4),
+		height: scaleWidth(2.3)
 	},
 	imageBackgroundLanguage: {
-		width: moderateScale(150),
-		height: moderateScale(38)
+		width: scaleWidth(16),
+		height: scaleWidth(4)
 	},
 	imageBackground: {
 		width: '100%',
@@ -263,16 +235,16 @@ const styles = StyleSheet.create({
 	botRight: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		top: moderateScale(7,0.1),
-		right: moderateScale(10,0.1)
+		top: scaleWidth(1),
+		right: scaleWidth(2)
 	},
 	topRight: {
 		flexDirection: 'row',
 		top: '3%',
-		width: moderateScale(120,0.25),
+		width: scaleWidth(12),
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		left: moderateScale(25),
+		left: scaleWidth(2)
 	},
 	containerRight: {
 		flexDirection: 'row',
@@ -280,7 +252,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	txtAddress: {
-		fontSize: moderateScale(16, 0.25),
+		fontSize: scaleWidth(1.8),
 		fontWeight: '500',
 		fontFamily: GlobalStyle.Medium,
 		color: WHITE,
@@ -288,15 +260,15 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.6
 	},
 	txtName: {
-		fontSize: moderateScale(24, 0.25),
+		fontSize: scaleWidth(2.5),
 		fontWeight: 'bold',
 		fontFamily: GlobalStyle.Weight,
 		color: WHITE,
 		letterSpacing: 0.6
 	},
 	containerModal: {
-		width: moderateScale(380,0.25),
-		height: moderateScale(250,0.25),
+		width: scaleWidth(41),
+		paddingBottom: scaleWidth(2),
 		borderRadius: 5,
 		backgroundColor: '#ffffff'
 	},
@@ -312,7 +284,7 @@ const styles = StyleSheet.create({
 	},
 	titleModal: {
 		color: '#ffffff',
-		fontSize: moderateScale(18, 0.25),
+		fontSize: scaleWidth(2.3),
 		marginLeft: scale(14),
 		fontWeight: '600',
 		fontFamily: GlobalStyle.Medium
@@ -320,8 +292,8 @@ const styles = StyleSheet.create({
 	contentModal: {
 		color: '#404040',
 		fontWeight: '500',
-		fontSize: moderateScale(18, 0.25),
-		marginTop: scale(14),
+		fontSize: scaleWidth(2),
+		marginTop: scaleWidth(2),
 		textAlign: 'center',
 		letterSpacing: 0.6,
 		fontFamily: GlobalStyle.Regular
@@ -329,21 +301,21 @@ const styles = StyleSheet.create({
 	wrapButtonModal: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: verticalScale(40)
+		marginTop: scaleWidth(8)
 	},
 	btnYes: {
-		width: moderateScale(55, 0.7),
+		width: scaleWidth(10),
 		backgroundColor: '#ffffff',
 		borderWidth: 1,
 		borderColor: '#dddddd'
 	},
 	btnNo: {
-		width: moderateScale(55, 0.7),
+		width: scaleWidth(10),
 		backgroundColor: '#F06C3C'
 	},
 	button: {
-		width: moderateScale(110),
-		height: moderateScale(45, 0.25),
+		width: scaleWidth(13),
+		height: scaleWidth(5.1),
 		backgroundColor: '#F06C3C',
 		borderRadius: 5,
 		justifyContent: 'center',
@@ -353,11 +325,38 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontWeight: '600',
 		fontFamily: GlobalStyle.Medium,
-		fontSize: moderateScale(16)
+		fontSize: scaleWidth(1.9)
 	},
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'center'
+	},
+	textBack: {
+		fontSize: scaleWidth(2),
+		fontWeight: '500',
+		color: PINK_BOLD,
+		marginHorizontal: 15,
+		letterSpacing: 0.3,
+		fontFamily: GlobalStyle.Medium
+	},
+	textLogout: {
+		fontSize: scaleWidth(1.8),
+		color: WHITE,
+		fontWeight: '600',
+		marginRight: scaleWidth(0.8),
+		fontFamily: GlobalStyle.Medium
+	},
+	imgLogout: {
+		width: scale(16),
+		height: scale(16)
+	},
+	buttonLogout: {
+		backgroundColor: 'white',
+		borderWidth: 1,
+		borderColor: '#404040'
+	},
+	textYesLogout: {
+		color: '#404040'
 	}
 });

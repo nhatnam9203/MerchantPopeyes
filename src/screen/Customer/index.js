@@ -1,22 +1,24 @@
-import React from 'react'
-import Layout from "./layout";
-import ConnectRedux from "reduxApp/ConnectRedux";
-import NavigatorServices from 'navigators/NavigatorServices'
+import React from 'react';
+import Layout from './layout';
 
-class MethodPoints extends Layout {
-    constructor(props) {
-        super(props)
-    }
-    gotoDetail=(title,placeholder)=>{
-        NavigatorServices.navigate('DetailMethodPoint', {
-            title: title,
-            placeholder:placeholder
-          });
-    }
+export default class Index extends Layout {
+	constructor(props) {
+		super(props);
+		this.state = {
 
+		};
+		this.Right = React.createRef();
+	}
 
+	goToOrderListRight = () => {
+		this.Right.current.scrollInforOrder.current.goToPage(0);
+	};
+
+	goToOrderHistoryRight = () => {
+		this.Right.current.scrollInforOrder.current.goToPage(2);
+	};
+
+	goToCollectPoint = () => {
+		this.Right.current.scrollInforOrder.current.goToPage(1);
+	};
 }
-const mapStateToProps = (state) => ({
-    token: state.dataLocal
-})
-export default ConnectRedux(mapStateToProps, MethodPoints)

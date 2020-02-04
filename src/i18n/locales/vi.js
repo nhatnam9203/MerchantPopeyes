@@ -39,11 +39,13 @@ export default {
   textCustomerMoneyInvoice : 'Số tiền thanh toán',
 
   textCustomerName : 'Tên khách hàng',
+  textCustomerLastName : 'Họ',
+  textCustomerFirstName : 'Tên',
   textCustomerPhone : 'Số điện thoại',
   textCustomerEmail : 'Email',
   textCustomerAddress : 'Địa chỉ',
   textCustomerButtonSave : 'Lưu',
-  textContentPointModal : 'Thực hiện tích diểm thành công hoá đơn #1001 cho khách hàng :',
+  textContentPointModal : 'Thực hiện tích diểm thành công cho khách hàng :',
 
   textSilverRank : 'Thành viên bạc',
 

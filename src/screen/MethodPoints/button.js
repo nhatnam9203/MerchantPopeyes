@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import ButtonCustom from 'components/ButtonCustom';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Configs from 'configs';
 import { scaleWidth, scaleHeight, GlobalStyle } from 'utils';
 import { Text } from 'components';
@@ -30,15 +30,22 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		width: scaleWidth('30%'),
-		height: scaleHeight('24%'),
+		height: scaleWidth(17),
 		backgroundColor: ORANGE,
 		borderRadius: 5,
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginHorizontal: 25,
-		shadowColor: '#4c4c52',
-		shadowOffset: { width: 0, height: 1 },
-		shadowOpacity: 0.4,
-		shadowRadius: 2
+		...Platform.select({
+			ios: {
+				shadowColor: '#4c4c52',
+				shadowOffset: { width: 0, height: 1 },
+				shadowOpacity: 0.4,
+				shadowRadius: 2
+			},
+			android: {
+				elevation: 5
+			}
+		})
 	}
 });

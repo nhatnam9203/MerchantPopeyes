@@ -1,19 +1,15 @@
 import AuthStack from './AuthStack';
-import { createAppContainer,createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { SplashScreen, HomeScreen, MethodPoints, DetailMethodPoint, Customer ,MainScreen} from '../screen';
+import { MainScreen } from '../screen';
+import AddressStack from './AddressStack';
 
 export default createAppContainer(
 	createStackNavigator(
 		{
-			// Splash: SplashScreen,
-			// Home: HomeScreen,
-			// MethodPoint: MethodPoints,
-			// DetailMethodPoint: DetailMethodPoint,
-			// Customer: Customer,
-			// SearchPhone,
 			MainScreen,
-			AuthStack
+			AuthStack,
+			AddressStack
 		},
 		{
 			backBehavior: 'order',

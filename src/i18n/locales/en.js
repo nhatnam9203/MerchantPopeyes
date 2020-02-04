@@ -37,13 +37,16 @@ export default {
   textCustomerList : 'List',
   textCustomerHistory : 'History',
   textCustomerMoneyInvoice : 'Payment amount',
+  
 
   textCustomerName : 'Customer Name',
+  textCustomerLastName : 'LastName',
+  textCustomerFirstName : 'FirstName',
   textCustomerPhone : 'Phone',
   textCustomerEmail : 'Email',
   textCustomerAddress : 'Address',
   textCustomerButtonSave : 'Save',
-  textContentPointModal : 'Successfully colledted point for bill # 1001 with customers :',
+  textContentPointModal : 'Successfully colledted point for customers :',
 
   textSilverRank : 'Member silver',
   textContentLogout : 'Are you sure want to log out ?',

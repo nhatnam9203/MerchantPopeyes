@@ -24,7 +24,6 @@ function reset(routeName: string, params?: NavigationParams) {
 }
 
 function navigate(routeName, params) {
-  //console.log('--- navigate --- : ',_container);
 
   _container.dispatch(
     NavigationActions.navigate({

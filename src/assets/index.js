@@ -19,6 +19,7 @@ const Images = {
   Order:require('./ImageApp/order.png'),
   Search:require('./ImageApp/search.png'),
   Delete:require('./ImageApp/delete.png'),
+  Avatar : require('./ImageApp/img_avatar.png'),
 }
 
 export default Images

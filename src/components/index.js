@@ -4,7 +4,11 @@ import Text from "./Text";
 import Loading from "./Loading";
 import Modal from "./Modal";
 import TextInput from "./TextInput";
-import Connection from "./checkConnection";
+import LoadingRoot from './LoadingRoot'
+import PopupError from './PopupError'
+import PopupYesNo from './PopupYesNo'
+import LoadingTask from './LoadingTask'
+import Network from './Network'
 export {
     ButtonCustom,
     ButtonDefault,
@@ -12,5 +16,9 @@ export {
     Loading,
     Modal,
     TextInput,
-    Connection
+    LoadingRoot,
+    PopupError,
+    PopupYesNo,
+    LoadingTask,
+    Network
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity,Button } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
+import {Button} from 'native-base'
 
 export default class ButtonCustom extends Component {
     constructor(props) {
@@ -7,14 +8,14 @@ export default class ButtonCustom extends Component {
     }
     render() {
         return (
-            <TouchableOpacity
+            <Button
                 activeOpacity={0.8}
                 
                 {...this.props}
                 onPress={this.props.onPress}
             >
                 {this.props.children}
-            </TouchableOpacity>
+            </Button>
         )
     }
 }

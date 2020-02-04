@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, ImageBackground, StatusBar, TouchableOpacity } from 'react-native';
 import image from 'assets';
 import ConnectRedux from 'reduxApp/ConnectRedux';
-import { verticalScale, moderateScale, GlobalStyle } from 'utils';
+import { verticalScale, moderateScale, GlobalStyle, scaleWidth } from 'utils';
 import { Right } from 'native-base';
 
 class HeaderLogin extends React.Component {
@@ -20,8 +20,8 @@ class HeaderLogin extends React.Component {
 				<View style={styles.container}>
 					<Right>
 						<ImageBackground source={image.Language} style={styles.imageBackground}>
-
 							<View style={styles.topRight}>
+
 								<TouchableOpacity
 									onPress={() => this.props.actions.app.changeLanguage('vi')}
 									style={styles.row}
@@ -31,40 +31,26 @@ class HeaderLogin extends React.Component {
 										style={{ width: moderateScale(26), height: verticalScale(17) }}
 										resizeMode="contain"
 									/>
-									<Text
-										style={{
-											fontSize: moderateScale(13),
-											marginLeft: 5,
-											fontWeight: '600',
-											color: '#404040',
-											fontFamily: GlobalStyle.Medium
-										}}
-									>
-										VI
-									</Text>
+									<Text style={styles.vi}>VI</Text>
 								</TouchableOpacity>
 
 								<TouchableOpacity
 									onPress={() => this.props.actions.app.changeLanguage('en')}
-									style={styles.row}
+									style={[
+										styles.row,
+										{
+											marginLeft: scaleWidth(1.1)
+										}
+									]}
 								>
 									<Image
 										source={image.Eu}
 										style={{ width: moderateScale(26), height: verticalScale(17) }}
 										resizeMode="contain"
 									/>
-									<Text
-										style={{
-											fontSize: moderateScale(13),
-											marginLeft: 5,
-											fontWeight: '600',
-											color: '#404040',
-											fontFamily: GlobalStyle.Medium,
-										}}
-									>
-										EN
-									</Text>
+									<Text style={styles.en}>EN</Text>
 								</TouchableOpacity>
+
 							</View>
 						</ImageBackground>
 					</Right>
@@ -87,15 +73,27 @@ const styles = StyleSheet.create({
 	},
 	topRight: {
 		flexDirection: 'row',
-		top: '3%',
-		width: moderateScale(120,0.25),
-		alignItems: 'center',
-		justifyContent: 'space-around',
-		left: moderateScale(25)
+		top: '3.2%',
+		width: scaleWidth(12),
+		left: scaleWidth(3)
 	},
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	vi: {
+		fontSize: moderateScale(13),
+		marginLeft: 3,
+		fontWeight: '600',
+		color: '#404040',
+		fontFamily: GlobalStyle.Medium
+	},
+	en: {
+		fontSize: moderateScale(13),
+		marginLeft: 3,
+		fontWeight: '600',
+		color: '#404040',
+		fontFamily: GlobalStyle.Medium
 	}
 });

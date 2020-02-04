@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
 import ConnectRedux from '../../redux/ConnectRedux';
-import { Text, View, Image, StyleSheet } from 'react-native';
-import Header from '../../components/Header';
-import Button from './button';
-import { ContextMain } from '../Main';
+import { View, StyleSheet } from 'react-native';
 
+import Button from './button';
 
 class MethodPoints extends Component {
 	render() {
 		return (
-			<ContextMain.Consumer>
-				{(context) => (
-					<View style={styles.content}>
-						<Button
-							onPress={() => {
-								context.navigateRoute(2);
-								context.openBarcode();
-							}}
-							title="textBarcode"
-						/>
-						<Button
-							onPress={() => {
-								context.navigateRoute(2);
-								context.openSearchPhone();
-							}}
-							title="textPhone"
-						/>
-					</View>
-				)}
-			</ContextMain.Consumer>
+			<View style={styles.content}>
+				<Button
+					onPress={() => {
+						this.props.navigateTo('DetailMethod');
+						this.props.openBarcode();
+					}}
+					title="textBarcode"
+				/>
+				<Button
+					onPress={() => {
+						this.props.navigateTo('DetailMethod');
+						this.props.openSearchPhone();
+					}}
+					title="textPhone"
+				/>
+			</View>
 		);
 	}
 }
